@@ -1,0 +1,115 @@
+﻿schema {
+  query: Query
+  mutation: Mutation
+  subscription: Subscription
+}
+
+type Music {
+  artist: String!
+  song_ms: String
+  spotify_url: String
+  title: String!
+}
+
+type MusicConnection {
+  items: [Music]
+  nextToken: String
+}
+
+type Mutation {
+  createMusic(input: CreateMusicInput!): Music
+  deleteMusic(input: DeleteMusicInput!): Music
+  updateMusic(input: UpdateMusicInput!): Music
+}
+
+type Query {
+  getMusic(artist: String!, title: String!): Music
+  listMusic(filter: TableMusicFilterInput, limit: Int, nextToken: String): MusicConnection
+}
+
+type Subscription {
+  onCreateMusic(artist: String, song_ms: String, spotify_url: String, title: String): Music @aws_subscribe(mutations : ["createMusic"])
+  onDeleteMusic(artist: String, song_ms: String, spotify_url: String, title: String): Music @aws_subscribe(mutations : ["deleteMusic"])
+  onUpdateMusic(artist: String, song_ms: String, spotify_url: String, title: String): Music @aws_subscribe(mutations : ["updateMusic"])
+}
+
+input CreateMusicInput {
+  artist: String!
+  song_ms: String
+  spotify_url: String
+  title: String!
+}
+
+input DeleteMusicInput {
+  artist: String!
+  title: String!
+}
+
+input TableBooleanFilterInput {
+  eq: Boolean
+  ne: Boolean
+}
+
+input TableFloatFilterInput {
+  between: [Float]
+  contains: Float
+  eq: Float
+  ge: Float
+  gt: Float
+  le: Float
+  lt: Float
+  ne: Float
+  notContains: Float
+}
+
+input TableIDFilterInput {
+  beginsWith: ID
+  between: [ID]
+  contains: ID
+  eq: ID
+  ge: ID
+  gt: ID
+  le: ID
+  lt: ID
+  ne: ID
+  notContains: ID
+}
+
+input TableIntFilterInput {
+  between: [Int]
+  contains: Int
+  eq: Int
+  ge: Int
+  gt: Int
+  le: Int
+  lt: Int
+  ne: Int
+  notContains: Int
+}
+
+input TableMusicFilterInput {
+  artist: TableStringFilterInput
+  song_ms: TableStringFilterInput
+  spotify_url: TableStringFilterInput
+  title: TableStringFilterInput
+}
+
+input TableStringFilterInput {
+  beginsWith: String
+  between: [String]
+  contains: String
+  eq: String
+  ge: String
+  gt: String
+  le: String
+  lt: String
+  ne: String
+  notContains: String
+}
+
+input UpdateMusicInput {
+  artist: String!
+  song_ms: String
+  spotify_url: String
+  title: String!
+}
